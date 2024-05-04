@@ -4,6 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {Home} from './screens/Home';
 import {RecipeDetail} from './screens/RecipeDetail';
 import {CookingMode} from './screens/CookingMode';
+import {SearchResults} from './screens/SearchResults';
 
 declare global {
   namespace ReactNavigation {
@@ -15,6 +16,7 @@ export type RootStackParamList = {
   Home: undefined;
   RecipeDetail: {id: string};
   CookingMode: undefined;
+  SearchResults: {query?: string; mealType?: string};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -45,6 +47,11 @@ function App() {
         <Stack.Screen
           name="CookingMode"
           component={CookingMode}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SearchResults"
+          component={SearchResults}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

@@ -1,7 +1,10 @@
-import React from 'react';
+import {useNavigation} from '@react-navigation/native';
+import React, {useState} from 'react';
 import {View, TextInput, StyleSheet, Button} from 'react-native';
 
 export default function RecipeSearchBar() {
+  const [textInput, setTextInput] = useState<string>('');
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
@@ -9,11 +12,17 @@ export default function RecipeSearchBar() {
           <TextInput
             style={styles.input}
             placeholder="Restaurants, groceries, dishes"
-            value=""
-            onChange={() => {}}
+            value={textInput}
+            onChangeText={text => setTextInput(text)}
           />
         </View>
-        <Button title="Search" color="orange" />
+        <Button
+          title="Search"
+          color="orange"
+          onPress={() =>
+            navigation.navigate('SearchResults', {query: textInput})
+          }
+        />
       </View>
     </View>
   );
