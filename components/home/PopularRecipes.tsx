@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import RecipeCard from '../cards/RecipeCard';
 import axios from 'axios';
+import {useNavigation} from '@react-navigation/native';
 
 const mealTypes = ['Breakfast', 'Main', 'Side Dish', 'Dessert', 'Appetizer'];
 
@@ -20,6 +21,8 @@ export default function PopularRecipes() {
   const [error, setError] = useState<null | Error>(null);
 
   const [activeMealType, setActiveMealType] = useState('Breakfast');
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,7 +76,10 @@ export default function PopularRecipes() {
 
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Our Choice</Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('SearchResults', {mealType: activeMealType})
+          }>
           <Text style={styles.moreText}>More</Text>
         </TouchableOpacity>
       </View>
