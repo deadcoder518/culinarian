@@ -1,10 +1,24 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import PopularRecipes from '../components/home/PopularRecipes';
+import RecipeSearchBar from '../components/home/RecipeSearchBar';
+import Welcome from '../components/home/Welcome';
 
 export function Home() {
   return (
-    <View>
-      <Text>Home Screen</Text>
+    <View style={styles.container}>
+      <Welcome />
+
+      <RecipeSearchBar />
+
+      <PopularRecipes />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    flex: 1,
+  },
+});

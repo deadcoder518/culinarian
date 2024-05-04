@@ -21,15 +21,19 @@ function inferenceCallback(inference: RhinoInference) {
 }
 
 export async function createAndStartPicovoice() {
-  picovoiceManager = await PicovoiceManager.create(
-    process.env.PICOVOICE_ACCESS_KEY!,
-    'Hey-Chef_en_android_v3_0_0.ppn',
-    wakeWordCallback,
-    'Cooking-Mode_en_android_v3_0_0.rhn',
-    inferenceCallback,
-  );
+  try {
+    picovoiceManager = await PicovoiceManager.create(
+      process.env.PICOVOICE_ACCESS_KEY!,
+      process.env.PICOVOICE_KEYWORD_PATH!,
+      wakeWordCallback,
+      process.env.PICOVOICE_CONTEXT_PATH!,
+      inferenceCallback,
+    );
 
-  await picovoiceManager.start();
+    await picovoiceManager.start();
+  } catch (e) {
+    console.debug(e);
+  }
 }
 
 export async function stopAndDeletePicovoice() {
