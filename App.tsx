@@ -5,6 +5,8 @@ import {Home} from './screens/Home';
 import {RecipeDetail} from './screens/RecipeDetail';
 import {CookingMode} from './screens/CookingMode';
 import {SearchResults} from './screens/SearchResults';
+import {store} from './store';
+import {Provider} from 'react-redux';
 
 declare global {
   namespace ReactNavigation {
@@ -23,39 +25,41 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: '#f4511e',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}>
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{title: 'Culinarian', headerTitleAlign: 'center'}}
-        />
-        <Stack.Screen
-          name="RecipeDetail"
-          component={RecipeDetail}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="CookingMode"
-          component={CookingMode}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="SearchResults"
-          component={SearchResults}
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}>
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{title: 'Culinarian', headerTitleAlign: 'center'}}
+          />
+          <Stack.Screen
+            name="RecipeDetail"
+            component={RecipeDetail}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="CookingMode"
+            component={CookingMode}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="SearchResults"
+            component={SearchResults}
+            options={{headerShown: false}}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
