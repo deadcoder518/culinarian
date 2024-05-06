@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
-  FlatList,
+  Button,
+  Image,
+  ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import axios from 'axios';
@@ -35,18 +36,19 @@ export function RecipeDetail({route, navigation}: ScreenProps) {
             apiKey: process.env.SPOONACULAR_API_KEY,
             addRecipeInformation: true,
             instructionsRequired: true,
+            includeNutrition: true,
             fillIngredients: true,
           },
         });
 
         setData(response.data);
-        setIsLoading(false);
       } catch (e) {
         console.debug(e);
         if (e instanceof Error) {
           setError(e);
         }
       }
+      setIsLoading(false);
     };
 
     fetchData();
@@ -77,12 +79,47 @@ export function RecipeDetail({route, navigation}: ScreenProps) {
         <Text>Error</Text>
       ) : (
         <View>
-          <TouchableOpacity onPress={navigateToCookingMode}>
-            <Text>{data.title}</Text>
-          </TouchableOpacity>
-          <FlatList
-            data={data.extendedIngredients}
-            renderItem={({item}) => <Text>{item.name}</Text>}
+          <Image source={{uri: data.image}} style={styles.image} />
+          <View>
+            <Text style={styles.recipeTitle}>{data.title}</Text>
+            <View style={styles.recipeInfoMini}>
+              <Text style={styles.recipeInfoText}>
+                🔥 {data.nutrition.nutrients[0].amount}kcal
+              </Text>
+              <Text style={styles.recipeInfoText}>
+                {data.cookingMinutes === -1
+                  ? '⏰ 30 minutes'
+                  : `⏰ ${data.cookingMinutes} minutes`}
+              </Text>
+              <Text style={styles.recipeInfoText}>
+                ⭐ {data.aggregateLikes} likes!
+              </Text>
+            </View>
+          </View>
+          <ScrollView style={styles.recipeDetailedInfo}>
+            <Text style={styles.recipeIngredientsTitle}>Ingredients</Text>
+            {data.extendedIngredients.map(ingredient => (
+              <Text style={styles.recipeIngredientsText}>
+                - {ingredient.amount} {ingredient.unit} {ingredient.nameClean}
+              </Text>
+            ))}
+            <View
+              style={{
+                borderBottomColor: 'black',
+                borderBottomWidth: StyleSheet.hairlineWidth,
+              }}
+            />
+            <Text style={styles.recipeIngredientsTitle}>Instructions</Text>
+            {data.analyzedInstructions[0].steps.map(instruction => (
+              <Text style={styles.recipeIngredientsText}>
+                • {instruction.step}
+              </Text>
+            ))}
+          </ScrollView>
+          <Button
+            title="Cook Now"
+            color="black"
+            onPress={navigateToCookingMode}
           />
         </View>
       )}
@@ -94,6 +131,46 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     flex: 1,
+  },
+  image: {
+    height: 350,
+    width: '100%',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  recipeTitle: {
+    fontSize: 30,
+    fontWeight: '700',
+    marginTop: '2%',
+    marginLeft: '2%',
+    color: 'black',
+  },
+  recipeInfoMini: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     paddingHorizontal: '5%',
+    marginTop: '2.5%',
+  },
+  recipeInfoText: {
+    marginLeft: '2%',
+    fontSize: 15,
+    fontWeight: '700',
+    backgroundColor: 'black',
+    color: 'white',
+    padding: 5,
+    borderRadius: 20,
+  },
+  recipeDetailedInfo: {
+    marginTop: '5%',
+    paddingHorizontal: '5%',
+    height: 330,
+  },
+  recipeIngredientsTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    marginBottom: '2%',
+  },
+  recipeIngredientsText: {
+    fontWeight: '600',
   },
 });
