@@ -55,7 +55,7 @@ function App() {
           <Stack.Screen
             name="SearchResults"
             component={SearchResults}
-            options={{headerShown: false}}
+            options={{title: 'Search Results', headerTitleAlign: 'center'}}
           />
         </Stack.Navigator>
       </NavigationContainer>
