@@ -36,6 +36,7 @@ export default function PopularRecipes() {
             apiKey: process.env.SPOONACULAR_API_KEY,
             type: activeMealType,
             addRecipeInformation: true,
+            addRecipeNutrition: true,
           },
         });
 

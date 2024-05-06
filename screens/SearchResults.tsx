@@ -41,6 +41,7 @@ export function SearchResults({route}: ScreenProps) {
           params: {
             apiKey: process.env.SPOONACULAR_API_KEY,
             addRecipeInformation: true,
+            addRecipeNutrition: true,
             ...requestParams,
           },
         });

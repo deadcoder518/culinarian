@@ -19,6 +19,14 @@ export default function RecipeCard(recipe: any) {
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.recipeTitle}>{data.title}</Text>
+        <Text style={styles.recipeMiniInfoText}>
+          {data.cookingMinutes === -1
+            ? '⏰ 30 minutes'
+            : `⏰ ${data.cookingMinutes} minutes`}
+        </Text>
+        <Text style={styles.recipeMiniInfoText}>
+          🔥 {data.nutrition.nutrients[0].amount}kcal
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -43,7 +51,10 @@ const styles = StyleSheet.create({
   },
   recipeTitle: {
     color: 'black',
+    fontWeight: '300',
+    marginBottom: '2%',
   },
+  recipeMiniInfoText: {},
   image: {
     height: 100,
     width: 100,
